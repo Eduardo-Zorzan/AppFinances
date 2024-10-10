@@ -1,0 +1,205 @@
+.page {
+  --gray-rgb: 0, 0, 0;
+  --gray-alpha-200: rgba(var(--gray-rgb), 0.08);
+  --gray-alpha-100: rgba(var(--gray-rgb), 0.05);
+
+  --button-primary-hover: #383838;
+  --button-secondary-hover: #f2f2f2;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: 100vh;
+  padding: 0;
+  gap: 1.25vh;
+  font-family: Arial, Helvetica, sans-serif;
+  transition: transform 0.5s ease;
+}
+
+.page section {
+  background-color: gray;
+}
+
+.arrowRight {
+  width: 12vw;
+  height: 12vw;
+}
+
+.arrowDown {
+  width: 10vw;
+  height: 10vw;
+}
+
+.month {
+  width: 95vw;
+  height: 9vh;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-bottom: 2.5vh;
+}
+
+.month input {
+  width: 70vw;
+  font-size: 1.9em;
+  height: 5vh;
+  padding: 1vmin;
+}
+
+.valueReceived, .inputAmountSpent {
+  width: 95vw;
+  height: 7vh;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+  
+.valueReceived input {
+  height: 4vh;
+  font-size: 1.2em;
+  width: 40vw;
+  text-align: right;
+  padding: 1vw;
+}
+
+.inputAmountSpent, .valueReceived {
+  font-size: 1.2em;
+}
+
+.amountSpent {
+  width: 95vw;
+  height: 55vh;
+  font-size: 1.4em;
+  padding: 1vmin;
+  display: flex;
+  flex-direction: column;
+}
+
+.amountSpent form div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.amountSpent form input {
+  height: 3.5vh;
+  width: 45vw;
+  margin: 1vh 0 1vh 0;
+  text-align: right;
+  padding: 1vw;
+  font-size: 0.9em;
+}
+
+#totalProfit {
+  height: 5vh;
+}
+
+.amountSpent ul {
+  height: 45.5vh;
+  overflow-y: auto;
+}
+
+.buttonInvestments {
+  height: 10vh;
+  width: 95vw;
+  padding: 1vmin;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.buttonInvestments button {
+  font-size: 2em;
+  background-color: #383838;
+  width: 85vw;
+  height: 6vh;
+  border: none;
+}
+
+.amoutSpentValuePage, .AmountReceivedPage {
+  visibility: hidden;
+  position: fixed;
+  background-color: #383838;
+  padding: 2vmin;
+  width: 95vmin;
+  height: 60vh;
+  display: flex;
+  flex-direction: column;
+};
+
+.amoutSpentValuePage form, .AmountReceivedPage form {
+  width: 97vmin;
+  height: 25vmax;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.amoutSpentValuePage form div, .AmountReceivedPage form div {
+  font-size: 1.2em;
+  display: flex;
+  justify-content: space-between;
+  margin: 0 0 1vmax 0;
+}
+
+.amoutSpentValuePage form input, .AmountReceivedPage form input {
+  font-size: 0.8em;
+  height: 3vmax;
+  width: 40vmin;
+}
+
+.amoutSpentValuePage button, .AmountReceivedPage button {
+  width: 20vmin;
+  font-size: 1.1em;
+  position: absolute;
+  right: 5vmin;
+}
+
+.amoutSpentValuePage ul, .AmountReceivedPage ul{
+  background-color: #ccc;
+  height: 50vmax;
+  width: 91vmin;
+  margin-top: 4vmax;
+  overflow: auto;
+}
+@media (prefers-color-scheme: dark) {
+  .page {
+    --gray-rgb: 255, 255, 255;
+    --gray-alpha-200: rgba(var(--gray-rgb), 0.145);
+    --gray-alpha-100: rgba(var(--gray-rgb), 0.06);
+
+    --button-primary-hover: #ccc;
+    --button-secondary-hover: #1a1a1a;
+  }
+}
+
+/* Enable hover only on non-touch devices */
+@media (hover: hover) and (pointer: fine) {
+  a.primary:hover {
+    background: var(--button-primary-hover);
+    border-color: transparent;
+  }
+
+  a.secondary:hover {
+    background: var(--button-secondary-hover);
+    border-color: transparent;
+  }
+
+  .footer a:hover {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+}
+
+@media (max-width: 600px) {
+  .page {
+    padding: 12px;
+    padding-bottom: 80px;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .logo {
+    filter: invert();
+  }
+}
