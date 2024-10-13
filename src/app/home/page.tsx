@@ -10,14 +10,17 @@ import AmountReceivedPage from './secondaryPages/amountReceivedPage';
 
 import DataColector from '../frontModules/dataColector';
 import HiddenMenu from '../frontModules/animationHiddenMenu';
+import PutData from '../frontModules/putData';
 
 export default function Home() {
   
   useEffect(() => {
+    const putData = new PutData();
     const dataColector = new DataColector();
     async function test() {
       //console.log(await getRequisition())
       await dataColector.addListener();
+      await putData.catchData();
     }
     test()
     const hiddenSpent = new HiddenMenu(false, 'amoutSpentValuePage', ['amountSpent', 'valueReceived', 'amountReceivedPage']);

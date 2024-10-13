@@ -7,12 +7,9 @@ export default class DataColector {
     elementValueReceived: HTMLInputElement | null;
     elementNameSpent: HTMLInputElement | null;
     elementValueSpent: HTMLInputElement | null;
-    amountSpent: HTMLInputElement | null;
-    amountReceived: HTMLInputElement | null;
-    profit: HTMLInputElement | null;
+    amountSpentPage: HTMLInputElement[] | null;
     lastMonth: string;
     objectMonth: ObjectMonth;
-
     constructor() {
         this.elementMonth = null;
         this.lastMonth = '';
@@ -21,14 +18,14 @@ export default class DataColector {
             profit: 0,
             totalReceived: 0,
             totalSpent: 0,
+            arrayReceiveds: [],
+            arraySpents: []
         };
         this.elementNameReceived = null;
         this.elementValueReceived = null;
         this.elementNameSpent = null;
         this.elementValueSpent = null;
-        this.amountReceived = null;
-        this.amountSpent = null;
-        this.profit = null;
+        this.amountSpentPage = null;
     }
 
     async addListener() {
@@ -43,7 +40,9 @@ export default class DataColector {
                 event.preventDefault();
                 this.takeElements();
                 this.takeValueElements();
-                console.log(await updateRequisition([this.objectMonth]));
+                this.getResultValues();
+                await updateRequisition([this.objectMonth]);
+                window.location.reload();
             })
         }
         const button2 = document.querySelector('.amoutSpentValuePage button');
@@ -52,7 +51,9 @@ export default class DataColector {
                 event.preventDefault();
                 this.takeElements();
                 this.takeValueElements();
+                this.getResultValues();
                 await updateRequisition([this.objectMonth]);
+                window.location.reload();
             })
         }
     }
@@ -88,33 +89,48 @@ export default class DataColector {
         this.elementNameReceived = document.querySelector('#receivedName');
         this.elementValueReceived = document.querySelector('#receivedValue');
         this.elementNameSpent = document.querySelector('#spentName');
-        this.elementValueSpent = document.querySelector('#spentValue');
-        this.amountReceived = document.querySelector('#totalReceived');
-        this.amountSpent = document.querySelector('#totalSpent');
-        this.profit = document.querySelector('#totalProfit');
     }
 
     takeValuesReceivedAndSpent() {
-        if(this.elementNameReceived && this.elementValueReceived) {
+        if (this.elementNameReceived && this.elementValueReceived && 
+            this.elementNameReceived.value && this.elementValueReceived.value) {
             this.objectMonth.arrayReceiveds?.push({
                 name: this.elementNameReceived.value,
                 value: parseFloat(this.elementValueReceived.value),
             });
         } else console.log('temporary message');
-        if(this.elementNameSpent && this.elementValueSpent) {
+        if (this.elementNameSpent && this.elementValueSpent &&
+            this.elementNameSpent.value && this.elementValueSpent.value) {
             this.objectMonth.arraySpents?.push({
                 name: this.elementNameSpent.value,
                 value: parseFloat(this.elementValueSpent.value),
             });
         } else console.log('temporary message')
+    }
 
+    getResultValues() {
+        this.amountSpentPage = Array.from(document.querySelectorAll('.amountSpent ul .receiveds .value'));
+        if(!this.amountSpentPage) return;
+        for(const i of this.amountSpentPage) {
+            if (typeof parseFloat(i.innerText) === 'number') this.objectMonth.totalReceived += parseFloat(i.value);
+        }
+        this.amountSpentPage = Array.from(document.querySelectorAll('.amountSpent ul .spents .value'));
+        if(!this.amountSpentPage) return;
+        for(const i of this.amountSpentPage) {
+            if (typeof parseFloat(i.innerText) === 'number') this.objectMonth.totalSpent += parseFloat(i.value);
+        }
+        if(this.objectMonth.arrayReceiveds && this.objectMonth.arrayReceiveds.length > 0) {
+            this.objectMonth.totalReceived += this.objectMonth.arrayReceiveds[0].value;
+        }
+        if(this.objectMonth.arraySpents && this.objectMonth.arraySpents?.length > 0) {
+            this.objectMonth.totalSpent += this.objectMonth.arraySpents[0].value;
+        }
+        console.log(this.objectMonth)
+        this.objectMonth.profit = this.objectMonth.totalReceived - this.objectMonth.totalSpent;
     }
 
     takeValueElements() {
         if(this.elementMonth) this.objectMonth.month = this.elementMonth.value + '-01';
-        if(this.amountReceived) this.objectMonth.totalReceived = parseFloat(this.amountReceived.value);
-        if(this.amountSpent) this.objectMonth.totalSpent = parseFloat(this.amountSpent.value);
-        if(this.profit) this.objectMonth.profit = parseFloat(this.profit.value);
         this.takeValuesReceivedAndSpent();
     }
 }

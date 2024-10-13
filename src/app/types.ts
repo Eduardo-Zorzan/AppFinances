@@ -1,10 +1,11 @@
-type ObjectValues = {
+export type ObjectValues = {
   name: string,
   value: number,
 };
 
 export type ObjectMonth = {
   month: string,
+  idValue?: number,
   totalReceived: number,
   totalSpent: number,
   profit: number,

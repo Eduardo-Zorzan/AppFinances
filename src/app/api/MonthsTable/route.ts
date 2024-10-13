@@ -88,10 +88,11 @@ export async function PATCH(req: Request) {
               USE AppExtensao;
               DECLARE @id_value INT;
               SET @id_value = (SELECT idValue FROM Months WHERE month = (CONVERT(DATE, '${object.month}', 120)));
-              INSERT INTO spentValues (nameSpent, valueSpent, idValue)
-              VALUES ('${objectChild.name}', '${objectChild.value}', @id_value);   
+              INSERT INTO receivedValues (nameReceived, valueReceived, idValue)
+              VALUES ('${objectChild.name}', ${objectChild.value}, @id_value);   
             `);
             globalResult = `${globalResult} ${resultChild.output}`;
+            console.log(resultChild.output);
           };
         }
         if(object.arraySpents) {
@@ -100,7 +101,7 @@ export async function PATCH(req: Request) {
               DECLARE @id_value INT;
               SET @id_value = (SELECT idValue FROM Months WHERE month = (CONVERT(DATE, '${object.month}', 120)));
               INSERT INTO spentValues (nameSpent, valueSpent, idValue)
-              VALUES ('${objectChild.name}', '${objectChild.value}', @id_value);    
+              VALUES ('${objectChild.name}', ${objectChild.value}, @id_value);    
             `);
             globalResult = `${globalResult} ${resultChild.output}`;
           };
@@ -108,6 +109,7 @@ export async function PATCH(req: Request) {
         globalResult = `${globalResult} ${result.output}`;
         return Response.json(globalResult)
       } catch (e) {
+          
           return Response.json(e)
       }
     }
