@@ -1,6 +1,8 @@
 export type ObjectValues = {
   name: string,
   value: number,
+  idValue?: number,
+  idOther?: number,
 };
 
 export type ObjectMonth = {
@@ -14,5 +16,6 @@ export type ObjectMonth = {
 };
 
 export type DeleteBody = {
-  month: string,
+  idReceived?: number,
+  idSpent?: number,
 };

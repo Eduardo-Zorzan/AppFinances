@@ -18,10 +18,9 @@ export default function Home() {
     const putData = new PutData();
     const dataColector = new DataColector();
     async function test() {
-      //console.log(await getRequisition())
       await dataColector.addListener();
       await putData.catchData();
-    }
+    };
     test()
     const hiddenSpent = new HiddenMenu(false, 'amoutSpentValuePage', ['amountSpent', 'valueReceived', 'amountReceivedPage']);
     const hiddenReceived = new HiddenMenu(true, 'amountReceivedPage', ['amountSpent', 'inputAmountSpent', 'amoutSpentValuePage']);
@@ -50,15 +49,15 @@ export default function Home() {
         <form action="">
           <div>
             <label htmlFor="totalSpent">Gastos totais: </label>
-            <input type="number" step={0.01}  placeholder={"R$0,00"} readOnly id={'totalSpent'} />
+            <input type="text" step={0.01}  placeholder={"R$0,00"} readOnly id={'totalSpent'} />
           </div>
           <div>
             <label htmlFor="receivedMonth">Recebido no mês: </label>
-            <input type="number" step={0.01}  placeholder={"R$0,00"} readOnly id={'totalReceived'} />
+            <input type="text" step={0.01}  placeholder={"R$0,00"} readOnly id={'totalReceived'} />
           </div>
           <div> 
             <label htmlFor="investments">Restante para <p></p> investimentos: </label>
-            <input type="number" step={0.01}  placeholder={"R$0,00"} readOnly id="totalProfit" />
+            <input type="text" step={0.01}  placeholder={"R$0,00"} readOnly id="totalProfit" />
           </div>
         </form>
       </section>

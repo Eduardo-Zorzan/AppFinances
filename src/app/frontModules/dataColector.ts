@@ -1,5 +1,5 @@
-import { ObjectMonth } from "../types";
-import { updateRequisition, postRequisition } from "./requisitions"; 
+import { ObjectMonth, DeleteBody } from "../types";
+import { updateRequisition, postRequisition, deleteRequisitionReceived, deleteRequisitionSpent } from "./requisitions"; 
 
 export default class DataColector {
     elementMonth: HTMLInputElement | null;
@@ -31,6 +31,7 @@ export default class DataColector {
     async addListener() {
         await this.addListenerButtonMonth();
         await this.addListenerButtonEntries();
+        await this.addListenerDelete();
     }
 
     async addListenerButtonEntries() {
@@ -67,9 +68,36 @@ export default class DataColector {
                 this.putLocalstorage();
                 this.takeElements();
                 this.takeValueElements();
-                await postRequisition([this.objectMonth]);
+                try {
+                    await postRequisition([this.objectMonth]);
+                } catch {
+                    window.location.reload();
+                }
             })
         }
+    }
+
+    async addListenerDelete() {
+        document.addEventListener('click', async (ev) => {
+            const event = ev.target as HTMLElement;
+            if(event && event.classList.contains('delete')) {
+                const bodyArray: string[] = event.id.split('_');
+                let body: DeleteBody;
+                if(bodyArray[0] === 'received') {
+                    body = {
+                        idReceived: parseFloat(bodyArray[1]),
+                    }
+                    await deleteRequisitionReceived([body]);
+                } else {
+                    body = {
+                        idSpent: parseFloat(bodyArray[1]),
+                    }
+                    await deleteRequisitionSpent([body]);
+                }
+               window.location.reload()
+            }
+            
+        })
     }
 
     checkMonth() {
@@ -89,6 +117,7 @@ export default class DataColector {
         this.elementNameReceived = document.querySelector('#receivedName');
         this.elementValueReceived = document.querySelector('#receivedValue');
         this.elementNameSpent = document.querySelector('#spentName');
+        this.elementValueSpent = document.querySelector('#spentValue');
     }
 
     takeValuesReceivedAndSpent() {
@@ -105,19 +134,21 @@ export default class DataColector {
                 name: this.elementNameSpent.value,
                 value: parseFloat(this.elementValueSpent.value),
             });
-        } else console.log('temporary message')
+        } else console.log('temporary message');
     }
 
     getResultValues() {
         this.amountSpentPage = Array.from(document.querySelectorAll('.amountSpent ul .receiveds .value'));
         if(!this.amountSpentPage) return;
         for(const i of this.amountSpentPage) {
-            if (typeof parseFloat(i.innerText) === 'number') this.objectMonth.totalReceived += parseFloat(i.value);
+            const iArray: string[] = i.value.split(' ');
+            if (typeof parseFloat(iArray[1]) === 'number') this.objectMonth.totalReceived += parseFloat(iArray[1]);
         }
         this.amountSpentPage = Array.from(document.querySelectorAll('.amountSpent ul .spents .value'));
         if(!this.amountSpentPage) return;
         for(const i of this.amountSpentPage) {
-            if (typeof parseFloat(i.innerText) === 'number') this.objectMonth.totalSpent += parseFloat(i.value);
+            const iArray: string[] = i.value.split('-');
+            if (typeof parseFloat(iArray[1]) === 'number') this.objectMonth.totalSpent += parseFloat(iArray[1]);
         }
         if(this.objectMonth.arrayReceiveds && this.objectMonth.arrayReceiveds.length > 0) {
             this.objectMonth.totalReceived += this.objectMonth.arrayReceiveds[0].value;
@@ -125,7 +156,6 @@ export default class DataColector {
         if(this.objectMonth.arraySpents && this.objectMonth.arraySpents?.length > 0) {
             this.objectMonth.totalSpent += this.objectMonth.arraySpents[0].value;
         }
-        console.log(this.objectMonth)
         this.objectMonth.profit = this.objectMonth.totalReceived - this.objectMonth.totalSpent;
     }
 

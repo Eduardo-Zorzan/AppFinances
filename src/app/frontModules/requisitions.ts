@@ -1,15 +1,17 @@
-import { ObjectMonth } from "../types";
+import { ObjectMonth, DeleteBody } from "../types";
 
 type TemporaryObjectValuesReceived = {
   idValue: number,
   nameReceived: string,
   valueReceived: number,
+  idReceived: number,
 }
 
 type TemporaryObjectValuesSpent = {
   idValue: number,
   nameSpent: string,
   valueSpent: number,
+  idSpent: number,
 }
 
 async function getReceiveds(object: ObjectMonth[]) {
@@ -25,6 +27,8 @@ async function getReceiveds(object: ObjectMonth[]) {
       if (i.idValue === a.idValue) i.arrayReceiveds?.push({
         name: a.nameReceived,
         value: a.valueReceived,
+        idValue: a.idValue,
+        idOther: a.idReceived,
       });
     }
   }
@@ -43,6 +47,8 @@ async function getSpents(object: ObjectMonth[]) {
       if (i.idValue === a.idValue) i.arraySpents?.push({
         name: a.nameSpent,
         value: a.valueSpent,
+        idValue: a.idValue,
+        idOther: a.idSpent,
       });
     }
   }
@@ -89,4 +95,26 @@ export const updateRequisition = async (data: ObjectMonth[]) => {
       body: JSON.stringify(data),
     });
     return await testRequisition.json();
+}
+
+export const deleteRequisitionReceived = async (data: DeleteBody[]) => {
+  const testRequisition = await fetch('/api/ReceivedValues', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  });
+  return console.log(await testRequisition.json());
+}
+
+export const deleteRequisitionSpent = async (data: DeleteBody[]) => {
+  const testRequisition = await fetch('/api/SpentValues', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  });
+  return await testRequisition.json();
 }

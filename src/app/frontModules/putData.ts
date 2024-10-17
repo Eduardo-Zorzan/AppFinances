@@ -42,29 +42,40 @@ export default class PutData {
         this.objectMonthArray = await getRequisition();
         this.verifyMonth();
         this.putValuesInElements();
-        console.log(this.objectMonth)
-        this.makeLi(this.amountSpentPage, this.objectMonth.arrayReceiveds, 'receiveds');
-        this.makeLi(this.amountSpentPage, this.objectMonth.arraySpents, 'spents');
-        this.makeLi(this.amountReceivedPage, this.objectMonth.arrayReceiveds, 'receiveds');
-        this.makeLi(this.amountSpentPageValue, this.objectMonth.arraySpents, 'spents');
+        this.makeLi(this.amountSpentPage, this.objectMonth.arrayReceiveds, 'receiveds', false);
+        this.makeLi(this.amountSpentPage, this.objectMonth.arraySpents, 'spents', true);
+        this.makeLi(this.amountReceivedPage, this.objectMonth.arrayReceiveds, 'receiveds', false, true);
+        this.makeLi(this.amountSpentPageValue, this.objectMonth.arraySpents, 'spents', true, true);
     }
 
-    makeLi(element: HTMLElement | null, array?: ObjectValues[], classLi?: string) {
+    makeLi(element: HTMLElement | null, array?: ObjectValues[], classLi?: string, negative?: boolean, deleteP?: boolean) {
         if(!array) return;
         for(const i of array) {
             const h3Name = document.createElement('h3');
             const input = document.createElement('input');
             const div = document.createElement('div')
             const li = document.createElement('li');
+            const button = document.createElement('button');
 
+            if(deleteP) {
+                button.innerText = 'Excluir';
+                button.classList.add(`delete`);
+            }
             h3Name.innerText = i.name;
-            input.value = `${i.value}`;
-            input.readOnly = true
+            if(negative) {
+                input.value = `R$ -${i.value}`;
+                if(deleteP) button.id = `spent_${i.idOther}`;
+            } else {
+                input.value = `R$ ${i.value}`;
+                if(deleteP) button.id = `received_${i.idOther}`;
+            }
+            input.readOnly = true;
             input.classList.add('value');
             if(classLi) li.classList.add(classLi);
             div.appendChild(h3Name);
             div.appendChild(input);
             li.appendChild(div);
+            if(deleteP) li.appendChild(button);
             if(element) element.appendChild(li);
         }
     }
@@ -78,9 +89,9 @@ export default class PutData {
 
     putValuesInElements() {
         this.takeElements();
-        if(this.amountReceived) this.amountReceived.value = `${this.objectMonth.totalReceived}`;
-        if(this.amountSpent) this.amountSpent.value = `${this.objectMonth.totalSpent}`;
-        if(this.profit) this.profit.value = `${this.objectMonth.profit}`;
+        if(this.amountReceived) this.amountReceived.value = `R$ ${this.objectMonth.totalReceived}`;
+        if(this.amountSpent) this.amountSpent.value = `R$ ${0 - this.objectMonth.totalSpent}`;
+        if(this.profit) this.profit.value = `R$ ${this.objectMonth.profit}`;
     }
 
     takeElements() {

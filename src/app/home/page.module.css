@@ -148,7 +148,7 @@
   width: 40vmin;
 }
 
-.amoutSpentValuePage button, .AmountReceivedPage button {
+.buttonReceivedAndSpent {
   width: 20vmin;
   font-size: 1.1em;
   position: absolute;
@@ -162,6 +162,43 @@
   margin-top: 4vmax;
   overflow: auto;
 }
+
+.AmountReceivedPage li, .amoutSpentValuePage li {
+  font-size: 1.2em;
+  background-color: grey; 
+  display: flex;
+  padding: 2vmin;
+  justify-content: space-between;
+  margin: 2vmin;
+  width: 87vmin;
+}
+
+.AmountReceivedPage li input, .amoutSpentValuePage li input {
+  font-size: 1em;
+  width: 40vmin;
+  text-align: end;
+}
+
+.AmountReceivedPage li button, .amoutSpentValuePage li button {
+  font-size: 1em;
+  width: 20vmin;
+}
+
+.amountSpent li div{
+  display: flex;
+  justify-content: space-between;
+  margin: 2vmin;
+  width: 90vmin;
+  font-size: 0.9em;
+  align-items: center;
+}
+
+.amountSpent li input {
+  text-align: end;
+  font-size: 1.1em;
+  width: 40vmin;
+}
+
 @media (prefers-color-scheme: dark) {
   .page {
     --gray-rgb: 255, 255, 255;
