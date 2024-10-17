@@ -14,7 +14,7 @@
   padding: 0;
   gap: 1.25vh;
   font-family: Arial, Helvetica, sans-serif;
-  transition: transform 0.5s ease;
+  transition: cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .page section {

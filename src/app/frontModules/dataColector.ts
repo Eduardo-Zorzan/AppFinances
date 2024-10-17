@@ -83,18 +83,38 @@ export default class DataColector {
             if(event && event.classList.contains('delete')) {
                 const bodyArray: string[] = event.id.split('_');
                 let body: DeleteBody;
+                const elementBrother: HTMLInputElement | null = event.parentElement?.firstChild?.lastChild as HTMLInputElement;
                 if(bodyArray[0] === 'received') {
                     body = {
                         idReceived: parseFloat(bodyArray[1]),
                     }
+                    const elementBrotherValue: number | null = parseFloat(elementBrother.value.split(' ')[1]);
                     await deleteRequisitionReceived([body]);
+                    this.takeElements();
+                    this.takeValueElements();
+                    this.getResultValues();
+                    if(elementBrotherValue) {
+                        this.objectMonth.totalReceived -= elementBrotherValue;
+                        this.objectMonth.profit -= elementBrotherValue;
+                    }
+                    await updateRequisition([this.objectMonth]);
                 } else {
                     body = {
                         idSpent: parseFloat(bodyArray[1]),
                     }
+                    const elementBrotherValue: number | null = parseFloat(elementBrother.value.split('-')[1]);
                     await deleteRequisitionSpent([body]);
+                    this.takeElements();
+                    this.takeValueElements();
+                    this.getResultValues();
+                    if(elementBrotherValue) {
+                        this.objectMonth.totalSpent -= elementBrotherValue;
+                        this.objectMonth.profit += elementBrotherValue;
+                    }
+                    console.log(elementBrother)
+                    await updateRequisition([this.objectMonth]);
                 }
-               window.location.reload()
+              window.location.reload()
             }
             
         })
