@@ -115,24 +115,3 @@ export async function PATCH(req: Request) {
     }
 };
 
-export async function DELETE(req: Request) {
-  const pool = await connectToDatabase();
-  const body: DeleteBody[] = await req.json();
-
-  for (const object of body) {
-    try {
-      const select = await pool.request().query(`
-        DECLARE @id_value INT;
-        SET @id_value = (SELECT idValue FROM Months WHERE month = '${object.month}');
-        DELETE Months WHERE idValue = @id_value;
-        DELETE transactionValues WHERE idValue = @id_value;
-        DELETE receivedValues WHERE idValue = @id_value;
-        DELETE spentValues WHERE idValue = @id_value;
-        `)
-      return Response.json(select.output)
-    } catch (e) {
-      return Response.json(e)
-    }
-  }
-}
-
