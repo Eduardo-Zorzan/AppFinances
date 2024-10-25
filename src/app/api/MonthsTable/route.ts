@@ -2,7 +2,6 @@
 
 import { connectToDatabase } from '../../../connectionDB';
 import { ObjectMonth } from '@/app/types';
-import { DeleteBody } from '@/app/types';
 
 export async function GET() {
   const pool = await connectToDatabase();
