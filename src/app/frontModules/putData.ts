@@ -65,9 +65,13 @@ export default class PutData {
             if(negative) {
                 input.value = `R$ -${i.value}`;
                 if(deleteP) button.id = `spent_${i.idOther}`;
+                input.style.backgroundColor = 'rgb(139, 0, 0)';
+                input.style.border = 'none'
             } else {
                 input.value = `R$ ${i.value}`;
                 if(deleteP) button.id = `received_${i.idOther}`;
+                input.style.backgroundColor = 'green';
+                input.style.border = 'none'
             }
             input.readOnly = true;
             input.classList.add('value');
@@ -91,13 +95,18 @@ export default class PutData {
         this.takeElements();
         if(this.amountReceived) this.amountReceived.value = `R$ ${this.objectMonth.totalReceived}`;
         if(this.amountSpent) this.amountSpent.value = `R$ ${0 - this.objectMonth.totalSpent}`;
-        if(this.profit) this.profit.value = `R$ ${this.objectMonth.profit}`;
+        if(this.profit) {
+            this.profit.value = `R$ ${this.objectMonth.profit.toFixed(2)}`;
+            this.profit.style.border = 'none';
+            if(this.objectMonth.profit > 0) this.profit.style.backgroundColor = 'green';
+            if(this.objectMonth.profit < 0) this.profit.style.backgroundColor = 'rgb(139, 0, 0)';
+        }
     }
 
     takeElements() {
-        this.amountReceived = document.querySelector('#totalReceived');
-        this.amountSpent = document.querySelector('#totalSpent');
-        this.profit = document.querySelector('#totalProfit');
+        this.amountReceived = document.querySelector('.resultReceived');
+        this.amountSpent = document.querySelector('.resultSpent');
+        this.profit = document.querySelector('.resultProfit');
         this.amountSpentPage = document.querySelector('.amountSpent ul');
         this.amountReceivedPage = document.querySelector('.amountReceivedPage ul');
         this.amountSpentPageValue = document.querySelector('.amoutSpentValuePage ul');

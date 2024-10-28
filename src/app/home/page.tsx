@@ -49,15 +49,15 @@ export default function Home() {
         <form action="">
           <div>
             <label htmlFor="totalSpent">Gastos totais: </label>
-            <input type="text" step={0.01}  placeholder={"R$0,00"} readOnly id={'totalSpent'} />
+            <input type="text" step={0.01}  placeholder={"R$0,00"} readOnly className="resultSpent" id={`${styles.totalSpent}`} />
           </div>
           <div>
             <label htmlFor="receivedMonth">Recebido no mês: </label>
-            <input type="text" step={0.01}  placeholder={"R$0,00"} readOnly id={'totalReceived'} />
+            <input type="text" step={0.01}  placeholder={"R$0,00"} readOnly className="resultReceived" id={`${styles.totalReceived}`} />
           </div>
           <div> 
             <label htmlFor="investments">Restante para <p></p> investimentos: </label>
-            <input type="text" step={0.01}  placeholder={"R$0,00"} readOnly id="totalProfit" />
+            <input type="text" step={0.01}  placeholder={"R$0,00"} readOnly className="resultProfit" id={`${styles.totalProfit}`} />
           </div>
         </form>
       </section>

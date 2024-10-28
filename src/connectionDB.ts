@@ -8,7 +8,7 @@ import sql from 'mssql';
 // }
 // SQL Server configuration
 const sqlConfig: sql.config = {
-  user: "edu",       // Your database user
+  user: "sa",       // Your database user
   password: "254254", // Your database password
   database: "AppExtensao",     // Your database name
   server: "BOOK-3DOVOPTT7H",     
